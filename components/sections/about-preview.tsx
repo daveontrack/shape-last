@@ -6,17 +6,17 @@ const values = [
   {
     icon: Target,
     title: "Our Mission",
-    description: "To empower vulnerable communities in Ethiopia through sustainable development programs that foster self-reliance and dignity.",
+    description: "To educate and support vulnerable children, empower women, and strengthen communities to break the cycle of poverty, hunger, illiteracy, and disease while fostering dignity, hope, and opportunity.",
   },
   {
     icon: Eye,
     title: "Our Vision",
-    description: "A transformed Ethiopia where every community thrives with access to education, clean water, healthcare, and economic opportunities.",
+    description: "A future where all people in Ethiopia live healthy, happy, productive, and dignified lives, with access to education, healthcare, clean water, and economic empowerment.",
   },
   {
     icon: Gem,
-    title: "Our Values",
-    description: "Integrity, compassion, sustainability, and community partnership guide every initiative we undertake.",
+    title: "Our Core Values",
+    description: "Accountability, responsibility, transparency, integrity, equity, respect, collaboration, participation, hard work, courage, and compassion guide every action and program we undertake.",
   },
 ]
 
@@ -32,15 +32,12 @@ export function AboutPreview() {
                 About SHAPEthiopia
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mt-3 leading-tight">
-                Building a Better Future for Ethiopian Communities
+                Empowering Children, Women, and Communities Across Ethiopia
               </h2>
             </div>
             
             <p className="text-muted-foreground text-lg leading-relaxed">
-              For over 18 years, SHAPEthiopia has been at the forefront of community 
-              development in Ethiopia. We work alongside local communities to create 
-              sustainable solutions that address the root causes of poverty and empower 
-              individuals to build better futures for themselves and their families.
+    SHAPEthiopia works to break the cycle of poverty, hunger, illiteracy, and disease by providing vulnerable children with education and nutritious meals, empowering women through income-generating activities and vocational training, and strengthening communities with sustainable development programs including clean water, sanitation, and healthcare initiatives.
             </p>
 
             <div className="space-y-6">

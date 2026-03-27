@@ -36,7 +36,7 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}${redirectTo}`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 

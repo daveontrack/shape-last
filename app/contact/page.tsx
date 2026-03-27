@@ -17,6 +17,7 @@ import {
   Facebook, Twitter, Instagram, Linkedin, Youtube,
   CheckCircle, AlertCircle
 } from "lucide-react"
+ 
 
 const contactInfo = [
   {
@@ -24,15 +25,16 @@ const contactInfo = [
     title: "Visit Us",
     details: [
       "SHAPEthiopia Head Office",
-      "Bole Sub City, Woreda 03",
-      "Addis Ababa, Ethiopia",
+      "P.O.Box 1679",
+      "In Front of main campus of Hawassa University",
+      "Hawassa, Ethiopia",
     ],
   },
   {
     icon: Mail,
     title: "Email Us",
     details: [
-      "info@shapeethiopia.org",
+      "info@shapethiopia.org",
       "volunteer@shapeethiopia.org",
       "donate@shapeethiopia.org",
     ],
@@ -358,17 +360,17 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div className="absolute bottom-4 left-4 px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg shadow text-sm">
-                      <span className="font-medium">Addis Ababa, Ethiopia</span>
+                      <span className="font-medium">Hawassa, Ethiopia</span>
                     </div>
                   </div>
                   <CardContent className="p-6">
                     <h3 className="font-serif text-lg font-semibold mb-2">Head Office Location</h3>
                     <p className="text-muted-foreground text-sm mb-4">
-                      Bole Sub City, Woreda 03, Addis Ababa, Ethiopia
+                      In front of the Main Campus of Hawassa University,Hawassa, Ethiopia
                     </p>
                     <Button variant="outline" asChild className="w-full">
                       <a 
-                        href="https://maps.google.com/?q=8.9806,38.7578" 
+                        href="https://maps.google.com/?q=7.0622,38.4767&ll=7.0622,38.4767&z=15" 
                         target="_blank" 
                         rel="noopener noreferrer"
                       >

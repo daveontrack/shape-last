@@ -16,36 +16,59 @@ const programs = [
   {
     id: "children",
     icon: GraduationCap,
-    title: "Children's Education Program",
+    title: "Children & Youth Development Program",
     subtitle: "Investing in Tomorrow's Leaders",
     description: "Our Children's Education Program provides comprehensive support to over 5,000 children across Ethiopia, ensuring they have access to quality education, nutritious meals, and a safe learning environment.",
     image: "/images/children-education.jpg",
-    stats: [
-      { number: "5,000+", label: "Children Enrolled" },
-      { number: "95%", label: "Graduation Rate" },
-      { number: "6", label: "Learning Centers" },
-    ],
-    features: [
-      "Quality primary and secondary education",
-      "Daily nutritious meals",
-      "School supplies and uniforms",
-      "Tutoring and mentorship programs",
-      "Safe learning environments",
-      "After-school enrichment activities",
-    ],
+  stats: [
+    { number: "5,000+", label: "Children Enrolled" },
+    { number: "600+", label: "Children Fed Daily" },
+    { number: "12,000+", label: "Exercise Books Distributed" },
+    { number: "25,000+", label: "Pens & Pencils Distributed" },
+  ],
+  features: [
+    "Quality primary and secondary education",
+    "Daily nutritious meals",
+    "School supplies, uniforms, and shoes",
+    "Tutoring, mentorship, and safe learning environments",
+    "H.O.P.E. Child Development Program supporting orphans and vulnerable children",
+    "Meserete Hiwot Fund for youth career guidance, skills, and job placement",
+    "Medical care and general health screenings",
+    "Hygiene and sanitation support for children and adolescents",
+    "Widows' empowerment and vocational training programs",
+    "Higher education support and youth leadership development",
+    "Community engagement and development programs",
+  ],
   },
   {
     id: "women",
     icon: Users,
     title: "Women Empowerment Program",
-    subtitle: "Building Strong Communities Through Strong Women",
-    description: "We believe that empowering women is key to community transformation. Our program provides vocational training, microfinance opportunities, and entrepreneurship support to help women achieve economic independence.",
+    subtitle: "Enabling Women to Realize Their Potential",
+  description: "SHAPEthiopia's Women's Empowerment Program supports impoverished women to gain skills, start businesses, and provide for their families. Through our programs, women become economically independent and contribute to healthier, more resilient communities.",
     image: "/images/women-empowerment.jpg",
     stats: [
       { number: "2,500+", label: "Women Trained" },
       { number: "500+", label: "Businesses Started" },
       { number: "85%", label: "Income Increase" },
     ],
+      programs: [
+    {
+      name: "Widows' Hope Crops Farming Project",
+      description: "Supports widows in rural Ethiopia to restart small-scale farms with improved seeds, farming training, and technical support. Women produce maize, teff, sorghum, beans, potatoes, sweet potatoes, and onions, providing nutritious food and sustainable income.",
+      impact: "71 women supported in 2016, producing high-yield crops and contributing to the Crops for Widows Fund for future beneficiaries."
+    },
+    {
+      name: "Widows' Hope Poultry & Livestock Development Project",
+      description: "Provides widows with chickens, sheep, or cows to generate nutritious food and income. SHAPEthiopia offers training, ongoing support, and veterinary care. Beneficiaries repay small amounts to sustain the Livestock for Widows Fund.",
+      impact: "Over 100 widows benefited with livestock, ensuring food security and income generation."
+    },
+    {
+      name: "Widows' Hope Handcrafting & Small Business Project",
+      description: "Trains widows in handcrafting (pottery, sewing, bamboo products), money management, and small business skills. A small seed fund is provided to help start their own businesses, creating economic independence.",
+      impact: "Hundreds of widows trained and supported in income-generating activities."
+    }
+  ],
     features: [
       "Vocational skills training",
       "Microfinance and savings groups",

@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   Target, Eye, Heart, Users, Shield, Handshake, Award, 
-  ArrowRight, CheckCircle, TrendingUp 
+  ArrowRight, CheckCircle, TrendingUp, 
+  Bolt,
+  Star
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -15,61 +17,133 @@ export const metadata: Metadata = {
   description: "Learn about SHAPEthiopia's mission, vision, values, and 18+ years of community development work across Ethiopia. Meet our team and understand our approach.",
 }
 
+// const values = [
+//   {
+//     icon: Heart,
+//     title: "Compassion",
+//     description: "We approach every community with empathy and genuine care for their wellbeing.",
+//   },
+//   {
+//     icon: Shield,
+//     title: "Integrity",
+//     description: "We maintain the highest standards of transparency and accountability in all our work.",
+//   },
+//   {
+//     icon: Handshake,
+//     title: "Partnership",
+//     description: "We work alongside communities, not for them, ensuring local ownership of solutions.",
+//   },
+//   {
+//     icon: TrendingUp,
+//     title: "Sustainability",
+//     description: "We design programs that create lasting change and empower self-reliance.",
+//   },
+// ]
 const values = [
   {
     icon: Heart,
     title: "Compassion",
-    description: "We approach every community with empathy and genuine care for their wellbeing.",
+    description: "We approach every child, woman, and community with empathy and genuine care for their wellbeing.",
   },
   {
     icon: Shield,
     title: "Integrity",
-    description: "We maintain the highest standards of transparency and accountability in all our work.",
+    description: "We uphold honesty, accountability, and the highest ethical standards in everything we do.",
   },
   {
     icon: Handshake,
-    title: "Partnership",
-    description: "We work alongside communities, not for them, ensuring local ownership of solutions.",
+    title: "Collaboration",
+    description: "We partner with individuals, organizations, and communities to create meaningful and lasting impact.",
   },
   {
     icon: TrendingUp,
-    title: "Sustainability",
-    description: "We design programs that create lasting change and empower self-reliance.",
+    title: "Empowerment",
+    description: "We support children and women to reach their potential and achieve self-reliance.",
   },
-]
+  {
+    icon: Users,
+    title: "Equity",
+    description: "We work with the most vulnerable and marginalized with fairness, ensuring everyone has equal opportunities.",
+  },
+  {
+    icon: Star,
+    title: "Respect",
+    description: "We value the dignity, diversity, and unique contributions of every individual we serve.",
+  },
+  {
+    icon: Bolt,
+    title: "Hard Work & Courage",
+    description: "We face challenges with perseverance, boldness, and determination to achieve the best outcomes.",
+  },
+  {
+    icon: Eye,
+    title: "Transparency",
+    description: "We operate openly and honestly, keeping our actions and decisions visible to all stakeholders.",
+  },
+];
+// const milestones = [
+//   { year: "2005", title: "Founded", description: "SHAPEthiopia established with first center in Shanto" },
+//   { year: "2008", title: "First 500 Children", description: "Reached milestone of 500 children in education program" },
+//   { year: "2010", title: "Hawasa Center", description: "Opened second center focusing on women empowerment" },
+//   { year: "2012", title: "Clean Water Initiative", description: "Launched clean water program with first 10 wells" },
+//   { year: "2015", title: "10,000 Lives", description: "Programs reached over 10,000 beneficiaries" },
+//   { year: "2019", title: "6th Center", description: "Opened Arbamich center for youth development" },
+//   { year: "2024", title: "20,000+ Impact", description: "Now serving over 20,000 people across 6 centers" },
+// ]
 
 const milestones = [
-  { year: "2005", title: "Founded", description: "SHAPEthiopia established with first center in Shanto" },
-  { year: "2008", title: "First 500 Children", description: "Reached milestone of 500 children in education program" },
-  { year: "2010", title: "Hawasa Center", description: "Opened second center focusing on women empowerment" },
-  { year: "2012", title: "Clean Water Initiative", description: "Launched clean water program with first 10 wells" },
-  { year: "2015", title: "10,000 Lives", description: "Programs reached over 10,000 beneficiaries" },
-  { year: "2019", title: "6th Center", description: "Opened Arbamich center for youth development" },
-  { year: "2024", title: "20,000+ Impact", description: "Now serving over 20,000 people across 6 centers" },
-]
-
+  { year: "2005", title: "Founded", description: "SHAPEthiopia established with the first H.O.P.E. Center in Shanto to support 150 children and widows." },
+  { year: "2010", title: "Dale H.O.P.E. Center", description: "Opened Dale Center serving 150 orphaned and vulnerable children, providing education, meals, and medical care." },
+  { year: "2011", title: "Humbo/Tebela Center", description: "Launched Humbo/Tebela Center enrolling 150 children with full educational and care support." },
+  { year: "2016", title: "Boricha H.O.P.E. Center", description: "Started Boricha Center, providing 150 children with education, nutrition, and hygiene programs." },
+  { year: "2016", title: "Hawassa H.O.P.E. Center", description: "Opened Hawassa Center serving vulnerable children in Tabor Sub-City, including daily meals and full sponsorship model." },
+  { year: "2019", title: "Arba Minch Center", description: "Expanded to Arba Minch H.O.P.E. Center focusing on youth development and community programs." },
+  { year: "2024", title: "20,000+ Impact", description: "SHAPEthiopia programs now positively impact over 20,000 children, women, and community members across multiple centers." },
+];
+// const leadership = [
+//   {
+//     name: "Dr. Abebe Tadesse",
+//     role: "Executive Director",
+//     bio: "20+ years in community development across East Africa.",
+//   },
+//   {
+//     name: "Meron Haile",
+//     role: "Programs Director",
+//     bio: "Expert in education and child welfare programs.",
+//   },
+//   {
+//     name: "Samuel Bekele",
+//     role: "Operations Manager",
+//     bio: "Oversees all center operations and field teams.",
+//   },
+//   {
+//     name: "Hanna Girma",
+//     role: "Development Director",
+//     bio: "Leads fundraising and partnership initiatives.",
+//   },
+// ]
 const leadership = [
   {
     name: "Dr. Abebe Tadesse",
     role: "Executive Director",
-    bio: "20+ years in community development across East Africa.",
+    bio: "Founder of SHAPEthiopia with over 20 years of experience in child and youth development, women empowerment, and community programs across Ethiopia.",
   },
   {
     name: "Meron Haile",
     role: "Programs Director",
-    bio: "Expert in education and child welfare programs.",
+    bio: "Leads SHAPEthiopia’s Child and Youth Development Program, H.O.P.E. Centers, and educational initiatives for vulnerable children.",
   },
   {
     name: "Samuel Bekele",
     role: "Operations Manager",
-    bio: "Oversees all center operations and field teams.",
+    bio: "Oversees day-to-day operations of multiple H.O.P.E. Centers, ensures program delivery, and manages field staff across regions.",
   },
   {
     name: "Hanna Girma",
     role: "Development Director",
-    bio: "Leads fundraising and partnership initiatives.",
+    bio: "Drives fundraising, international partnerships, and sponsorship programs, including the Widows’ Hope Program and community empowerment projects.",
   },
-]
+];
 
 export default function AboutPage() {
   return (
@@ -119,9 +193,7 @@ export default function AboutPage() {
                     <h2 className="font-serif text-2xl font-bold text-foreground">Our Vision</h2>
                   </div>
                   <p className="text-muted-foreground text-lg leading-relaxed pl-15">
-                    A transformed Ethiopia where every community thrives with access to 
-                    quality education, clean water, healthcare, and economic opportunities, 
-                    enabling all individuals to live with dignity and hope.
+                    A future where all people in Ethiopia live healthy, happy, productive, and dignified lives, free from poverty and empowered to reach their full potential.
                   </p>
                 </div>
 
@@ -134,9 +206,7 @@ export default function AboutPage() {
                     <h2 className="font-serif text-2xl font-bold text-foreground">Our Mission</h2>
                   </div>
                   <p className="text-muted-foreground text-lg leading-relaxed pl-15">
-                    To empower vulnerable communities in Ethiopia through sustainable 
-                    development programs that foster self-reliance, dignity, and lasting 
-                    transformation by addressing root causes of poverty.
+                    To educate and support vulnerable children, and empower poor women and their communities to break the cycle of poverty, hunger, illiteracy, and disease, enabling them to lead healthy, happy, productive, and dignified lives.
                   </p>
                 </div>
               </div>

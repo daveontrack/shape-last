@@ -96,7 +96,8 @@ export default function ProfilePage() {
     fetchProfile()
   }, [router, toast])
 
-  const handleSave = async () => {
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault()
     if (!profile) return
     
     // Validation
@@ -115,7 +116,7 @@ export default function ProfilePage() {
       const supabase = createClient()
       const { error } = await supabase
         .from("profiles")
-        .upsert({
+        .update({
           id: profile.id,
           first_name: profile.first_name?.trim() || null,
           last_name: profile.last_name?.trim() || null,
@@ -125,6 +126,7 @@ export default function ProfilePage() {
           country: profile.country?.trim() || null,
           updated_at: new Date().toISOString(),
         })
+        .eq('id', profile.id)
 
       if (error) {
         throw error
@@ -190,92 +192,96 @@ export default function ProfilePage() {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2">
+          <form onSubmit={handleSave} className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  value={profile?.first_name || ""}
+                  onChange={(e) => setProfile(prev => prev ? { ...prev, first_name: e.target.value } : null)}
+                  placeholder="Enter your first name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  value={profile?.last_name || ""}
+                  onChange={(e) => setProfile(prev => prev ? { ...prev, last_name: e.target.value } : null)}
+                  placeholder="Enter your last name"
+                  required
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="firstName"
-                value={profile?.first_name || ""}
-                onChange={(e) => setProfile(prev => prev ? { ...prev, first_name: e.target.value } : null)}
-                placeholder="Enter your first name"
+                id="email"
+                value={email}
+                disabled
+                className="bg-muted"
+              />
+              <p className="text-xs text-muted-foreground">Email cannot be changed</p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                value={profile?.phone || ""}
+                onChange={(e) => setProfile(prev => prev ? { ...prev, phone: e.target.value } : null)}
+                placeholder="+251 xxx xxx xxxx"
               />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="address">Address</Label>
               <Input
-                id="lastName"
-                value={profile?.last_name || ""}
-                onChange={(e) => setProfile(prev => prev ? { ...prev, last_name: e.target.value } : null)}
-                placeholder="Enter your last name"
+                id="address"
+                value={profile?.address || ""}
+                onChange={(e) => setProfile(prev => prev ? { ...prev, address: e.target.value } : null)}
+                placeholder="Enter your address"
               />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              value={email}
-              disabled
-              className="bg-muted"
-            />
-            <p className="text-xs text-muted-foreground">Email cannot be changed</p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input
-              id="phone"
-              value={profile?.phone || ""}
-              onChange={(e) => setProfile(prev => prev ? { ...prev, phone: e.target.value } : null)}
-              placeholder="+251 xxx xxx xxxx"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="address">Address</Label>
-            <Input
-              id="address"
-              value={profile?.address || ""}
-              onChange={(e) => setProfile(prev => prev ? { ...prev, address: e.target.value } : null)}
-              placeholder="Enter your address"
-            />
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
-              <Input
-                id="city"
-                value={profile?.city || ""}
-                onChange={(e) => setProfile(prev => prev ? { ...prev, city: e.target.value } : null)}
-                placeholder="Enter your city"
-              />
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  value={profile?.city || ""}
+                  onChange={(e) => setProfile(prev => prev ? { ...prev, city: e.target.value } : null)}
+                  placeholder="Enter your city"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="country">Country</Label>
+                <Input
+                  id="country"
+                  value={profile?.country || ""}
+                  onChange={(e) => setProfile(prev => prev ? { ...prev, country: e.target.value } : null)}
+                  placeholder="Enter your country"
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="country">Country</Label>
-              <Input
-                id="country"
-                value={profile?.country || ""}
-                onChange={(e) => setProfile(prev => prev ? { ...prev, country: e.target.value } : null)}
-                placeholder="Enter your country"
-              />
-            </div>
-          </div>
 
-          <Button onClick={handleSave} disabled={isSaving} className="w-full md:w-auto">
-            {isSaving ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-4 w-4" />
-                Save Changes
-              </>
-            )}
-          </Button>
+            <Button type="submit" disabled={isSaving} className="w-full md:w-auto">
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Changes
+                </>
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
