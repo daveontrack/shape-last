@@ -39,7 +39,9 @@ export function DashboardNavbar({ user, profile }: DashboardNavbarProps) {
     }
     try {
       const supabase = createClient()
-      await supabase.auth.signOut({ scope: "local" })
+      if (supabase) {
+        await supabase.auth.signOut({ scope: "local" })
+      }
     } catch {
       // ignore
     }

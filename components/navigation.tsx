@@ -53,9 +53,16 @@ export function Navigation() {
   const [isLoading, setIsLoading] = useState(true)
 
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
+    const supabase = createClient()
+    
+    // If Supabase is not configured, just show logged out state
+    if (!supabase) {
+      setIsLoading(false)
+      return
+    }
+
     const loadUser = async () => {
       setIsLoading(true)
 
@@ -122,7 +129,10 @@ export function Navigation() {
   }, [])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    const supabase = createClient()
+    if (supabase) {
+      await supabase.auth.signOut()
+    }
     setUser(null)
     setProfile(null)
     router.push('/')
