@@ -41,7 +41,7 @@
 //                 <Heart className="w-5 h-5 text-primary-foreground" />
 //               </div>
 //               <span className="font-serif text-xl font-bold">
-//                 SHAPE<span className="text-primary">Ethiopia</span>
+//                 SHAPE<span className="text-primary">thiopia</span>
 //               </span>
 //             </Link>
 //             <p className="text-background/70 leading-relaxed">
@@ -145,7 +145,7 @@
 //       <div className="border-t border-background/10">
 //         <div className="container mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
 //           <p className="text-background/60 text-sm text-center sm:text-left">
-//             &copy; {new Date().getFullYear()} SHAPEEthiopia. All rights reserved.
+//             &copy; {new Date().getFullYear()} SHAPEthiopia. All rights reserved.
 //           </p>
 //           <div className="flex gap-6 text-sm">
 //             <Link href="/privacy" className="text-background/60 hover:text-primary transition-colors">
@@ -216,7 +216,7 @@ export function Footer() {
                 <Heart className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="font-serif text-xl font-bold">
-                SHAPE<span className="text-primary">Ethiopia</span>
+                SHAPE<span className="text-primary">thiopia</span>
               </span>
             </Link>
             <p className="text-background/70 leading-relaxed">
@@ -326,7 +326,7 @@ export function Footer() {
       <div className="border-t border-background/10">
         <div className="container mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-background/60 text-sm text-center sm:text-left">
-            &copy; {new Date().getFullYear()} SHAPEEthiopia. All rights reserved.
+            &copy; {new Date().getFullYear()} SHAPEthiopia. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-background/60 hover:text-primary transition-colors">

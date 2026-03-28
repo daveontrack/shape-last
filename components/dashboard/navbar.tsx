@@ -70,7 +70,7 @@ export function DashboardNavbar({ user, profile }: DashboardNavbarProps) {
             <Heart className="w-4 h-4 text-primary-foreground" />
           </div>
           <span className="font-serif text-lg font-bold text-foreground hidden sm:inline-block">
-            SHAPE<span className="text-primary">Ethiopia</span>
+            SHAPE<span className="text-primary">thiopia</span>
           </span>
         </Link>
 
