@@ -83,7 +83,7 @@ export function DashboardSidebar({ user, profile }: DashboardSidebarProps) {
             <Heart className="w-5 h-5 text-primary-foreground" />
           </div>
           <span className="font-serif text-xl font-bold text-foreground">
-            SHAPE<span className="text-primary">ethiopia</span>
+            SHAPE<span className="text-primary">Ethiopia</span>
           </span>
         </Link>
       </div>
@@ -157,7 +157,7 @@ export function DashboardSidebar({ user, profile }: DashboardSidebarProps) {
               <Heart className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="font-serif text-lg font-bold text-foreground">
-              SHAPE<span className="text-primary">ethiopia</span>
+              SHAPE<span className="text-primary">Ethiopia</span>
             </span>
           </Link>
           <Sheet open={isOpen} onOpenChange={setIsOpen}>

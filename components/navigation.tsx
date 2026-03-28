@@ -156,7 +156,7 @@ export function Navigation() {
             <Heart className='w-5 h-5 text-primary-foreground' />
           </div>
           <span className='font-bold text-lg'>
-            SHAPE<span className='text-primary'>ethiopia</span>
+            SHAPE<span className='text-primary'>Ethiopia</span>
           </span>
         </Link>
 

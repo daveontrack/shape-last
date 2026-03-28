@@ -8,13 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
-const WELCOME_MESSAGE = `Welcome to SHAPEthiopia!
+const WELCOME_MESSAGE = `Welcome to SHAPEEthiopia!
 
 I'm your AI assistant. I can help you:
 - Learn about our programs
 - Guide you to volunteer
 - Help you donate
-- Answer questions about SHAPEthiopia
+- Answer questions about SHAPEEthiopia
 
 What would you like help with today?`
 
@@ -22,7 +22,7 @@ const QUICK_ACTIONS = [
   { label: "How can I volunteer?", message: "How can I volunteer?" },
   { label: "How can I donate?", message: "How can I donate?" },
   { label: "What programs do you have?", message: "What programs do you have?" },
-  { label: "Tell me about SHAPEthiopia", message: "Tell me about SHAPEthiopia" },
+  { label: "Tell me about SHAPEEthiopia", message: "Tell me about SHAPEEthiopia" },
 ]
 
 export function Chatbot() {
@@ -94,7 +94,7 @@ export function Chatbot() {
           <CardHeader className="border-b bg-primary text-primary-foreground rounded-t-xl py-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Bot className="h-5 w-5" />
-              SHAPEthiopia Assistant
+              SHAPEEthiopia Assistant
             </CardTitle>
           </CardHeader>
 
