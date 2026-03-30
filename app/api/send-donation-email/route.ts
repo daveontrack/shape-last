@@ -320,11 +320,11 @@ export async function POST(request: Request) {
           <div class="container">
             <div class="header">
               <h1>Thank You for Your Donation! ❤️</h1>
-              <p>Your generosity changes lives</p>
+              <p>Your donation of ${amount} ${currency} has been received successfully</p>
             </div>
             <div class="content">
               <p>Dear ${name},</p>
-              <p>Thank you so much for your generous donation! We truly appreciate your support in helping communities and changing lives across Ethiopia.</p>
+              <p>Thank you so much for your generous donation of <strong>${amount} ${currency}</strong>! We truly appreciate your support in helping communities and changing lives across Ethiopia.</p>
               
               <div class="donation-details">
                 <h3 style="margin-top: 0; color: #059669;">Donation Details:</h3>

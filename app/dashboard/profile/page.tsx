@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2, Save, User, CheckCircle } from "lucide-react"
+import { Loader2, Save, User, CheckCircle, AlertCircle } from "lucide-react"
 
 interface Profile {
   id: string
@@ -18,16 +18,11 @@ interface Profile {
   city: string
   country: string
   avatar_url: string | null
-}
-
-// Mock user data for demo purposes (works without DB connection)
-const MOCK_USER = {
-  email: "user@example.com",
-  id: "mock-user-123"
+  email: string
 }
 
 const INITIAL_PROFILE: Profile = {
-  id: "mock-user-123",
+  id: "",
   first_name: "",
   last_name: "",
   phone: "",
@@ -35,14 +30,63 @@ const INITIAL_PROFILE: Profile = {
   city: "",
   country: "Ethiopia",
   avatar_url: null,
+  email: "",
 }
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile>(INITIAL_PROFILE)
-  const [email] = useState(MOCK_USER.email)
+  const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
+
+  // Fetch user profile on component mount
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        console.log("[v0] Fetching user profile...")
+
+        const response = await fetch("/api/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile")
+        }
+
+        const data = await response.json()
+        console.log("[v0] Profile fetched:", data)
+
+        if (data.success && data.data) {
+          setProfile({
+            id: data.data.id || "",
+            first_name: data.data.first_name || "",
+            last_name: data.data.last_name || "",
+            phone: data.data.phone || "",
+            address: data.data.address || "",
+            city: data.data.city || "",
+            country: data.data.country || "Ethiopia",
+            avatar_url: data.data.avatar_url || null,
+            email: data.data.email || "",
+          })
+        }
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Failed to load profile"
+        console.error("[v0] Error fetching profile:", errorMsg)
+        setError(errorMsg)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProfile()
+  }, [])
 
   const handleInputChange = (field: keyof Profile, value: string) => {
     setProfile(prev => ({ ...prev, [field]: value }))
@@ -76,23 +120,56 @@ export default function ProfilePage() {
     if (!validateForm()) return
     
     setIsSaving(true)
+    setError(null)
 
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // In a real app, this would save to Supabase
-      // For now, we just show success since there's no DB connection
-      
+      console.log("[v0] Saving profile...")
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: profile.first_name.trim(),
+          last_name: profile.last_name.trim(),
+          phone: profile.phone.trim(),
+          address: profile.address.trim(),
+          city: profile.city.trim(),
+          country: profile.country.trim(),
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to save profile")
+      }
+
+      const data = await response.json()
+      console.log("[v0] Profile saved:", data)
+
+      // Update local state with the response data
+      if (data.success && data.data) {
+        setProfile(prev => ({
+          ...prev,
+          ...data.data,
+        }))
+      }
+
       setShowSuccess(true)
       toast({
         title: "Profile updated successfully",
-        description: "Your changes have been saved.",
+        description: "Your changes have been saved and a confirmation email has been sent.",
       })
-    } catch (error) {
+
+      // Hide success message after 5 seconds
+      setTimeout(() => setShowSuccess(false), 5000)
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Please try again later."
+      console.error("[v0] Error saving profile:", errorMsg)
+      setError(errorMsg)
       toast({
         title: "Failed to save profile",
-        description: error instanceof Error ? error.message : "Please try again later.",
+        description: errorMsg,
         variant: "destructive",
       })
     } finally {
@@ -102,11 +179,22 @@ export default function ProfilePage() {
 
   const initials = profile.first_name 
     ? `${profile.first_name[0]}${profile.last_name?.[0] || ""}`.toUpperCase()
-    : email[0]?.toUpperCase() || "U"
+    : profile.email?.[0]?.toUpperCase() || "U"
 
   const fullName = profile.first_name 
     ? `${profile.first_name} ${profile.last_name}`.trim()
     : "Complete Your Profile"
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <div className="text-center space-y-4">
+          <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
+          <p className="text-muted-foreground">Loading your profile...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-8 max-w-2xl">
@@ -118,10 +206,19 @@ export default function ProfilePage() {
       </div>
 
       {showSuccess && (
-        <div className="flex items-center gap-3 p-4 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800">
-          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 animate-in fade-in">
+          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
           <p className="text-sm text-green-700 dark:text-green-300">
-            Your profile has been updated successfully
+            Your profile has been updated successfully and a confirmation email has been sent
+          </p>
+        </div>
+      )}
+
+      {error && (
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800">
+          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+          <p className="text-sm text-red-700 dark:text-red-300">
+            {error}
           </p>
         </div>
       )}
@@ -137,7 +234,7 @@ export default function ProfilePage() {
             </Avatar>
             <div>
               <CardTitle>{fullName}</CardTitle>
-              <CardDescription>{email}</CardDescription>
+              <CardDescription>{profile.email}</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -152,6 +249,7 @@ export default function ProfilePage() {
                   onChange={(e) => handleInputChange("first_name", e.target.value)}
                   placeholder="Enter your first name"
                   required
+                  disabled={isSaving}
                 />
               </div>
               <div className="space-y-2">
@@ -162,6 +260,7 @@ export default function ProfilePage() {
                   onChange={(e) => handleInputChange("last_name", e.target.value)}
                   placeholder="Enter your last name"
                   required
+                  disabled={isSaving}
                 />
               </div>
             </div>
@@ -170,7 +269,7 @@ export default function ProfilePage() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                value={email}
+                value={profile.email}
                 disabled
                 className="bg-muted cursor-not-allowed"
               />
@@ -185,6 +284,7 @@ export default function ProfilePage() {
                 value={profile.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
                 placeholder="+251 xxx xxx xxxx"
+                disabled={isSaving}
               />
             </div>
 
@@ -195,6 +295,7 @@ export default function ProfilePage() {
                 value={profile.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 placeholder="Enter your address"
+                disabled={isSaving}
               />
             </div>
 
@@ -206,6 +307,7 @@ export default function ProfilePage() {
                   value={profile.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Enter your city"
+                  disabled={isSaving}
                 />
               </div>
               <div className="space-y-2">
@@ -215,6 +317,7 @@ export default function ProfilePage() {
                   value={profile.country}
                   onChange={(e) => handleInputChange("country", e.target.value)}
                   placeholder="Enter your country"
+                  disabled={isSaving}
                 />
               </div>
             </div>

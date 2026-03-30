@@ -33,6 +33,8 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
     setIsLoading(true)
 
     try {
+      console.log("[v0] Starting OAuth login with:", provider)
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -41,6 +43,7 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
       })
 
       if (error) {
+        console.error("[v0] OAuth error:", error)
         toast({
           title: "Authentication Failed",
           description: error.message,
@@ -49,6 +52,7 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
       }
       // OAuth will redirect, so we don't need to handle success here
     } catch (error) {
+      console.error("[v0] Unexpected OAuth error:", error)
       toast({
         title: "Authentication Failed",
         description: "An unexpected error occurred. Please try again.",
@@ -85,6 +89,8 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           return
         }
 
+        console.log("[v0] Signing up user:", email)
+
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -97,6 +103,7 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
         })
 
         if (error) {
+          console.error("[v0] Sign up error:", error)
           toast({
             title: "Sign Up Failed",
             description: error.message,
@@ -106,9 +113,12 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           return
         }
 
+        console.log("[v0] User signed up successfully")
+
         // Check if email confirmation is required
         if (data?.session) {
           // User is auto-confirmed
+          console.log("[v0] User auto-confirmed, redirecting to dashboard")
           toast({
             title: "Welcome!",
             description: "Your account has been created successfully.",
@@ -117,16 +127,24 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           router.refresh()
         } else {
           // Email confirmation required
+          console.log("[v0] Email confirmation required, redirecting to verify page")
+          toast({
+            title: "Check Your Email",
+            description: "We've sent you a confirmation link. Please click it to verify your email address.",
+          })
           router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`)
         }
       } else {
         // Login
+        console.log("[v0] Logging in user:", email)
+
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         })
 
         if (error) {
+          console.error("[v0] Login error:", error)
           toast({
             title: "Login Failed",
             description: error.message,
@@ -136,6 +154,8 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           return
         }
 
+        console.log("[v0] User logged in successfully")
+
         toast({
           title: "Welcome back!",
           description: "You have been logged in successfully.",
@@ -144,6 +164,7 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
         router.refresh()
       }
     } catch (error) {
+      console.error("[v0] Unexpected auth error:", error)
       toast({
         title: "Authentication Failed",
         description: "An unexpected error occurred. Please try again.",

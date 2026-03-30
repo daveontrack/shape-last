@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "setup:email": "node scripts/check-email-setup.mjs"
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.118",

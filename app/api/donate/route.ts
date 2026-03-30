@@ -84,8 +84,37 @@ export async function POST(req: NextRequest) {
       )
     }
     
-    // TODO: Send notification (SMS/Email) - can integrate with Twilio or SendGrid
-    // For now, log the donation
+    // Send thank you email if donor email is provided
+    if (body.donor_email) {
+      try {
+        const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/send-donation-email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: body.donor_email,
+            name: donor_name.trim(),
+            amount: Number(amount),
+            currency: body.currency || "ETB",
+            program: campaign,
+            donationId: data.id,
+            paymentMethod: payment_method,
+            frequency: "one-time",
+          }),
+        })
+
+        if (emailResponse.ok) {
+          console.log("[v0] Thank you email sent successfully to:", body.donor_email)
+        } else {
+          console.error("[v0] Failed to send thank you email:", await emailResponse.text())
+        }
+      } catch (error) {
+        console.error("[v0] Error sending thank you email:", error)
+        // Don't fail the donation if email fails to send
+      }
+    }
+
     console.log("[v0] Donation recorded:", {
       id: data.id,
       amount: data.amount,
