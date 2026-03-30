@@ -126,8 +126,32 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           router.push(redirectTo)
           router.refresh()
         } else {
-          // Email confirmation required
-          console.log("[v0] Email confirmation required, redirecting to verify page")
+          // Email confirmation required - send confirmation email via Resend
+          console.log("[v0] Email confirmation required, sending confirmation email")
+          
+          // Get the confirmation link from Supabase
+          const confirmationLink = `${window.location.origin}/auth/callback?type=signup&code=${data?.user?.user_metadata?.confirmation_sent_at || ''}`
+          
+          try {
+            const emailResponse = await fetch("/api/send-confirmation-email", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email,
+                firstName,
+                confirmationLink: `${window.location.origin}/auth/verify-email?email=${encodeURIComponent(email)}`,
+              }),
+            })
+
+            if (emailResponse.ok) {
+              console.log("[v0] Confirmation email sent successfully")
+            } else {
+              console.error("[v0] Failed to send confirmation email")
+            }
+          } catch (emailError) {
+            console.error("[v0] Error sending confirmation email:", emailError)
+          }
+
           toast({
             title: "Check Your Email",
             description: "We've sent you a confirmation link. Please click it to verify your email address.",
