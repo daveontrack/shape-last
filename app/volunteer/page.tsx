@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -621,3 +621,6 @@ export default function VolunteerPage() {
     </>
   )
 }
+
+// Allow dynamic rendering for this page (required because of useSearchParams and window.location)
+export const dynamic = "force-dynamic"
