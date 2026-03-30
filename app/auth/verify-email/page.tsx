@@ -1,15 +1,63 @@
 "use client"
 
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { Heart, Mail, CheckCircle, AlertCircle, RefreshCw } from "lucide-react"
+import { Heart, Mail, CheckCircle, AlertCircle, RefreshCw, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useToast } from "@/hooks/use-toast"
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams()
   const email = searchParams.get("email")
+  const [isResending, setIsResending] = useState(false)
+  const { toast } = useToast()
+
+  const handleResendEmail = async () => {
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Email address not found. Please sign up again.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsResending(true)
+    try {
+      const response = await fetch('/api/auth/resend-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: data.error || "Failed to resend email. Please try again.",
+          variant: "destructive",
+        })
+        return
+      }
+
+      toast({
+        title: "Email Sent!",
+        description: data.message || "Confirmation email has been sent. Check your inbox.",
+      })
+    } catch (error) {
+      console.error('[v0] Resend error:', error)
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsResending(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-secondary/30 flex flex-col">
@@ -107,11 +155,24 @@ function VerifyEmailContent() {
               <p className="text-xs text-muted-foreground mb-2">
                 Still no email after 5 minutes?
               </p>
-              <Button variant="ghost" size="sm" className="text-primary" asChild>
-                <Link href="/auth/sign-up">
-                  <RefreshCw className="w-3 h-3 mr-1" />
-                  Try signing up again
-                </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-primary" 
+                onClick={handleResendEmail}
+                disabled={isResending}
+              >
+                {isResending ? (
+                  <>
+                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="w-3 h-3 mr-1" />
+                    Resend Email
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>

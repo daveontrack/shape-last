@@ -85,40 +85,36 @@ export function AuthForm({ mode, redirectTo = "/dashboard" }: AuthFormProps) {
           return
         }
 
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              first_name: firstName,
-              last_name: lastName,
-            },
-          },
+        // Use custom signup API that handles email sending
+        const response = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            password,
+            firstName,
+            lastName,
+          }),
         })
 
-        if (error) {
+        const data = await response.json()
+
+        if (!response.ok) {
           toast({
             title: "Sign Up Failed",
-            description: error.message,
+            description: data.error || "An error occurred during signup.",
             variant: "destructive",
           })
           setIsLoading(false)
           return
         }
 
-        // Check if email confirmation is required
-        if (data?.session) {
-          // User is auto-confirmed
-          toast({
-            title: "Welcome!",
-            description: "Your account has been created successfully.",
-          })
-          router.push(redirectTo)
-          router.refresh()
-        } else {
-          // Email confirmation required
-          router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`)
-        }
+        // Email confirmation required - redirect to verification page
+        toast({
+          title: "Account Created!",
+          description: data.message || "Please check your email for a confirmation link.",
+        })
+        router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`)
       } else {
         // Login
         const { error } = await supabase.auth.signInWithPassword({
