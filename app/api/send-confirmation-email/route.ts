@@ -16,23 +16,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Resend free/test tier restriction: can only send to verified test email
-    const testEmail = "dawitberiso406@gmail.com"
-    const isTestEmail = email === testEmail
+    // Resend domain verification check
+    // Once you verify shapethiopia.org domain at resend.com/domains, set this to true
+    const isDomainVerified = process.env.RESEND_DOMAIN_VERIFIED === 'true'
     
-    if (!isTestEmail) {
-      console.log(`[v0] Resend is in test mode. Skipping email to ${email}. Only test emails (${testEmail}) can receive emails.`)
-      // Don't fail - just skip the email for non-test addresses
-      return NextResponse.json({
-        success: true,
-        message: "Email verification signup recorded. To send to other addresses, verify domain at resend.com/domains",
-        skipped: true,
-        reason: "Resend test mode - domain not verified",
-      })
+    let fromEmail = "onboarding@resend.dev"
+    
+    if (isDomainVerified) {
+      // Use custom domain once verified
+      fromEmail = "noreply@shapethiopia.org"
+      console.log("[v0] Using verified domain for email")
+    } else {
+      // In test mode, can only send to test email
+      const testEmail = "dawitberiso406@gmail.com"
+      const isTestEmail = email === testEmail
+      
+      if (!isTestEmail) {
+        console.log(`[v0] Domain not verified. Resend test mode - can only send to ${testEmail}`)
+        return NextResponse.json({
+          success: true,
+          message: "Email verification recorded. To send to other addresses, verify domain at resend.com/domains",
+          skipped: true,
+          reason: "Resend test mode - domain not verified",
+        })
+      }
+      console.log("[v0] Using test mode - sending to verified test email only")
     }
 
     const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: fromEmail,
       to: email,
       subject: "Confirm Your SHAPEthiopia Account",
       html: `
