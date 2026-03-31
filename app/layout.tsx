@@ -17,8 +17,16 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
+const getAppUrl = () => {
+  const url = process.env.NEXT_PUBLIC_APP_URL?.trim()
+  if (url && url.startsWith('http')) {
+    return url
+  }
+  return 'http://localhost:3000'
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(getAppUrl()),
   title: {
     default: 'SHAPEthiopia - Empowering Communities, Transforming Lives',
     template: '%s | SHAPEthiopia',
@@ -30,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    url: getAppUrl(),
     siteName: 'SHAPEthiopia',
     title: 'SHAPEthiopia - Empowering Communities, Transforming Lives',
     description: 'Join SHAPEthiopia in making a lasting impact through humanitarian work and community development in Ethiopia.',
