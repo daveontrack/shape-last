@@ -27,20 +27,7 @@ export async function POST(request: NextRequest) {
       fromEmail = "noreply@shapethiopia.org"
       console.log("[v0] Using verified domain for email")
     } else {
-      // In test mode, can only send to test email
-      const testEmail = "dawitberiso406@gmail.com"
-      const isTestEmail = email === testEmail
-      
-      if (!isTestEmail) {
-        console.log(`[v0] Domain not verified. Resend test mode - can only send to ${testEmail}`)
-        return NextResponse.json({
-          success: true,
-          message: "Email verification recorded. To send to other addresses, verify domain at resend.com/domains",
-          skipped: true,
-          reason: "Resend test mode - domain not verified",
-        })
-      }
-      console.log("[v0] Using test mode - sending to verified test email only")
+      console.log("[v0] Using default Resend sender email")
     }
 
     const { data, error } = await resend.emails.send({
