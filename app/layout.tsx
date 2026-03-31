@@ -18,7 +18,9 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://v0-shapethiopia-DM.vercel.app'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  ),
   title: {
     default: 'SHAPEthiopia - Empowering Communities, Transforming Lives',
     template: '%s | SHAPEthiopia',
