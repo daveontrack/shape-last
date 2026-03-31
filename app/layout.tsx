@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://v0-shapethiopia-DM.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   title: {
     default: 'SHAPEthiopia - Empowering Communities, Transforming Lives',
     template: '%s | SHAPEthiopia',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://v0-shapethiopia-DM.vercel.app',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     siteName: 'SHAPEthiopia',
     title: 'SHAPEthiopia - Empowering Communities, Transforming Lives',
     description: 'Join SHAPEthiopia in making a lasting impact through humanitarian work and community development in Ethiopia.',
